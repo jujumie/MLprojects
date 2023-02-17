@@ -14,7 +14,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Directions and Overview\n",
+    "## Overview\n",
     "\n",
     "The main purpose of this assignment is to gain experience using artificial neural networks to solve simple regression problems.  In this assignment, I will fit a neural network to a noisy 3D sinusoidal data set.  I will use a `Sequential` model that can be trained very quickly on the supplied data, and manually adjust hyperparameter values and observe their influence on the model's predictions.\n",
     "\n",
