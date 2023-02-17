@@ -16,13 +16,9 @@
    "source": [
     "## Directions and Overview\n",
     "\n",
-    "The main purpose of this assignment is for you to gain experience using artificial neural networks to solve simple regression problems.  In this assignment, you will fit a neural network to a noisy 3D sinusoidal data set.  You will use a `Sequential` model that can be trained very quickly on the supplied data, so I want you to manually adjust hyperparameter values and observe their influence on the model's predictions.  That is, you should manually sweep the hyperparameter space and try to hone in on the reasonable hyperparameter values, again, _manually_.  (Yep, that means guess-and-check: pick some values, train the model, observe the prediction curve, repeat.)\n",
+    "The main purpose of this assignment is to gain experience using artificial neural networks to solve simple regression problems.  In this assignment, I will fit a neural network to a noisy 3D sinusoidal data set.  I will use a `Sequential` model that can be trained very quickly on the supplied data, and manually adjust hyperparameter values and observe their influence on the model's predictions.\n",
     "\n",
-    "So, play around and build some models.  When you are done playing with hyperparameter values, you should finish by building an ANN that models the data reasonably well! You should be able to train a model and use it to predict a curve at least as good as mine, but your goal should be to obtain a smoother and less erratic curve.\n",
-    "\n",
-    "(Side Note: Achieving a less erratic prediction curve could be done either by building a better model, ___OR___ by sorting the data more intelligently thereby plotting a prediction curve that looks better.  I propose the ideal line is created by sorting the data in such a way that the resulting line minimizes the arc length of the curve. You don't need to worry about any of this, however you do need to generate a figure with a descent-looking prediction curve superimposed on the data.)\n",
-    "\n",
-    "Here just just a few of the hyperparameters you can play around with:\n",
+    "Here just just a few of the hyperparameters I will play around with:\n",
     "\n",
     "- number of nodes per layer\n",
     "- number of layers\n",
@@ -31,10 +27,6 @@
     "- number of epochs\n",
     "- learning rate\n",
     "- loss function\n",
-    "\n",
-    "You will know that you have obtained a reasonable model when the model's prediction curve looks reasonable.  ___Below you will be asked to plot the model's prediction curve along with the training data.  Even if you correctly train the model, you may find that your trendline looks totally crazy and out-of-this-world when you first plot it.  If this happens to you, try plotting the model's predictions using a scatter plot rather than a connected line plot.  You should be able to infer the problem and solution with plotting the trendline from examining this new scatter plot of the model's predictions.___  \n",
-    "\n",
-    "Lastly in this assignment, you will compute the generalization error on the test set."
    ]
   },
   {
@@ -202,11 +194,11 @@
     "\n",
     "\n",
     "\n",
-    "1. Begin by importing the data from the file called `3DSinusoidalANN.csv`.  Name the returned DataFrame `data`.\n",
+    "1. Here I import the data from the file called `3DSinusoidalANN.csv` and name the returned DataFrame `data`.\n",
     "\n",
-    "2. Call [train_test_split()](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) with a `test_size` of 20%.  Save the output into `X_train`, `X_test`, `y_train`, and `y_test`, respectively. Looking at the below graph, it makes sense for `x` and `z` to be your training data and `y` to be your response data.  Specify the `random_state` parameter to be `42` (do this throughout the entire note book).\n",
+    "2. I call [train_test_split()](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) with a `test_size` of 20%.  Save the output ooking at the below graph\n",
     "\n",
-    "3. Next, use the `StandardScaler()` to scale your data."
+    "3. Next, I use the `StandardScaler()` to scale the data."
    ]
   },
   {
@@ -240,7 +232,7 @@
    "outputs": [],
    "source": [
     "#Scaling data using StandardScaler\n",
-    "##### you should scale all three columns in one pass. This will ensure that the \n",
+    "##### here I scale all three columns in one pass. This will ensure that the \n",
     "##### scaler has visibility into all data, so that it can scale optimally.\n",
     "\n",
     "from sklearn.preprocessing import StandardScaler\n",
@@ -258,9 +250,6 @@
    "source": [
     "# Plot Data\n",
     "\n",
-    "Simply plot your training data here, so that you know what you are working with.  You must define a function called `plot3Ddata`, which accepts a Pandas DataFrame (composed of 3 spatial coordinates) and uses `scatter3D()` to plot the data.  Use this function to plot only the training data (recall that you don't even want to look at the test set, until you are ready to calculate the generalization error).  You must place the definition of this function in the existing code cell of the above __Preliminaries__ section, and have nothing other than the function invocation in the below cell. \n",
-    "\n",
-    "You must emulate the graphs shown in the respective sections below. Each of the graphs will have four subplots. Note the various viewing angles that each subplot presents - you can achieve this with the view_init() method. Be sure to label your axes as shown."
    ]
   },
   {
@@ -300,9 +289,8 @@
    "source": [
     "## A Quick Note\n",
     "\n",
-    "In the following sections you will be asked to plot the training data along with the model's predictions for that data superimposed on it.  You must write a function called `plotscatter3Ddata(fit_x, fit_y, fit_z, scat_x, scat_y, scat_z)` that will plot this figure.  The function accepts six parameters as input, shown in the function signature.  All six input parameters must be NumPy arrays.  The three Numpy arrays called `fit_x, fit_y,` and  `fit_z` represent the x, y, and z coordinates of the model predictions (i.e. the prediction curve).  The three Numpy arrays called `scat_x, scat_y,` and  `scat_z` represent the x, y, and z coordinates of the training data.   \n",
+    "Here I plot the training data along with the model's predictions for that data. I wrote a function called `plotscatter3Ddata(fit_x, fit_y, fit_z, scat_x, scat_y, scat_z)` that will plot this figure.  The function accepts six parameters as input, shown in the function signature.  All six input parameters are NumPy arrays.  The three Numpy arrays called `fit_x, fit_y,` and  `fit_z` represent the x, y, and z coordinates of the model predictions (i.e. the prediction curve).  The three Numpy arrays called `scat_x, scat_y,` and  `scat_z` represent the x, y, and z coordinates of the training data.   \n",
     "\n",
-    "You must place the definition of the `plotscatter3Ddata(fit_x, fit_y, fit_z, scat_x, scat_y, scat_z)` function in the existing code cell of the above __Preliminaries__ section. (The function header is already there - you must complete the function definition.)  You will use the `plotscatter3Ddata()` function in the following section."
    ]
   },
   {
@@ -311,7 +299,7 @@
    "source": [
     "# Explore 3D Sinusoidal Data with Artifical Neural Networks\n",
     "\n",
-    "Fit a `Sequential` model to this data.  You must manually assign values to the hyperparameters, including the number of nuerons per layer and the number of layers.  You should \"play around\" by using different combinations of hyperparameter values.  When you are done playing, you should build an ANN that models the data well.  Then, you will use that modelto calculate the generalization error in the subsequent section."
+    "Here I fit a `Sequential` model to this data."
    ]
   },
   {
@@ -363,7 +351,7 @@
    "outputs": [],
    "source": [
     "model.compile(loss = 'mean_squared_error',\n",
-    "##### by setting LR to a very low number, youo are basically telling the model \n",
+    "##### by setting LR to a very low number, I am basically telling the model \n",
     "##### to ignore optimizer output.\n",
     "##### optimizer= keras.optimizers.SGD(learning_rate=1e-10),\n",
     "              optimizer= keras.optimizers.SGD(learning_rate=1.5*1e-1),\n",
@@ -1221,7 +1209,7 @@
    "source": [
     "### Plot Model Predictions for Training Set\n",
     "\n",
-    "Use the model's `predict()` method to make a prediction for `y` using the `x` and `z` training data.  Use the `plotscatter3Ddata(fit_x, fit_y, fit_z, scat_x, scat_y, scat_z)` function to plot the data and the prediction curve."
+    "I use the `predict()` method to make a prediction for `y` using the `x` and `z` training data. My function plots the data and the prediction curve."
    ]
   },
   {
@@ -1354,7 +1342,7 @@
    "source": [
     "# Compute Generalization Error\n",
     "\n",
-    "Compute the generalization error and use MSE as the generalization error metric.  Round your answers to four significant digits.  Print the generalization error for the model."
+    "Here I compute the generalization error and use MSE as the generalization error metric."
    ]
   },
   {
